@@ -9,15 +9,21 @@
 import UIKit
 import MapKit
 import CoreLocation
+import CoreData
 
 class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
 
     let locationManager = CLLocationManager()
-    
+    var managedObjectContext : NSManagedObjectContext!
+    var error : NSError?
+    var reminderArray : [Reminder]?
     @IBOutlet var mapView : MKMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        var longPressGesture = UILongPressGestureRecognizer(target: self, action: "didLongPress:")
+        self.mapView.addGestureRecognizer(longPressGesture)
         
         self.locationManager.delegate = self
         self.mapView.delegate = self
@@ -31,10 +37,24 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             println("Restricted")
         default:
             println("default for CLLocationManager.authorizationStatus")
-        
-        var longPressGesture = UILongPressGestureRecognizer(target: self, action: "didLongPress:")
-        self.mapView.addGestureRecognizer(longPressGesture)
+            
         }
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "addReminder:", name: "REMINDER_ADDED", object: nil)
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        self.managedObjectContext = appDelegate.managedObjectContext
+        
+        let fetchRequest = NSFetchRequest(entityName: "Reminder")
+        var error : NSError?
+        if let reminders = self.managedObjectContext.executeFetchRequest(fetchRequest, error: &error) as? [Reminder] {
+            if reminders.isEmpty {
+                self.reminderArray = self.managedObjectContext.executeFetchRequest(fetchRequest, error: &error) as? [Reminder]
+            } else {
+                self.reminderArray = reminders
+            }
+        }
+        println(self.reminderArray![0].identifier)
     }
     
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
@@ -48,7 +68,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         if let location = locations.last as? CLLocation {
-            println(location.coordinate.latitude)
         }
     }
     
@@ -59,6 +78,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             annotation.coordinate = locationOfPress
             annotation.title = "Add reminder"
             self.mapView.addAnnotation(annotation)
+            println("pressed")
         }
     }
     
@@ -85,5 +105,31 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func locationManager(manager: CLLocationManager!, didExitRegion region: CLRegion!) {
         println("outside region")
     }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    func addReminder (notification: NSNotification) {
+        let userInfo = notification.userInfo!
+        let geoRegion = userInfo["region"] as CLCircularRegion
+        
+        var regionToSave = NSEntityDescription.insertNewObjectForEntityForName("Reminder", inManagedObjectContext: self.managedObjectContext) as Reminder
+        regionToSave.identifier = geoRegion.identifier
+        regionToSave.radius = geoRegion.radius
+        regionToSave.coordinateX = geoRegion.center.latitude
+        regionToSave.coordinateY = geoRegion.center.longitude
+        regionToSave.date = NSDate()
+        self.managedObjectContext.save(&self.error)
+        
+        let overlay = MKCircle(centerCoordinate: geoRegion.center, radius: geoRegion.radius)
+        self.mapView.addOverlay(overlay)
+    }
+    
+    func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
+        let renderer = MKCircleRenderer(overlay: overlay)
+        renderer.fillColor = UIColor.purpleColor().colorWithAlphaComponent(0.5)
+        
+        return renderer
+    }
 }
-
