@@ -25,8 +25,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         var longPressGesture = UILongPressGestureRecognizer(target: self, action: "didLongPress:")
         self.mapView.addGestureRecognizer(longPressGesture)
         
-        self.locationManager.delegate = self
-        self.mapView.delegate = self
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        self.managedObjectContext = appDelegate.managedObjectContext
         
         switch CLLocationManager.authorizationStatus() as CLAuthorizationStatus {
         case .Authorized:
@@ -37,24 +37,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             println("Restricted")
         default:
             println("default for CLLocationManager.authorizationStatus")
-            
         }
-        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addReminder:", name: "REMINDER_ADDED", object: nil)
         
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        self.managedObjectContext = appDelegate.managedObjectContext
-        
-        let fetchRequest = NSFetchRequest(entityName: "Reminder")
-        var error : NSError?
-        if let reminders = self.managedObjectContext.executeFetchRequest(fetchRequest, error: &error) as? [Reminder] {
-            if reminders.isEmpty {
-                self.reminderArray = self.managedObjectContext.executeFetchRequest(fetchRequest, error: &error) as? [Reminder]
-            } else {
-                self.reminderArray = reminders
-            }
-        }
-        println(self.reminderArray![0].identifier)
+        self.locationManager.delegate = self
+        self.mapView.delegate = self
     }
     
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {

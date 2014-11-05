@@ -19,6 +19,4 @@ class Reminder : NSManagedObject {
     @NSManaged var coordinateY : NSNumber!
     @NSManaged var date : NSDate!
     
-    
-    
 }

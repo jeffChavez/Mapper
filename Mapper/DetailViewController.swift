@@ -17,7 +17,6 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
 
     @IBAction func buttonPressed (sender: AnyObject) {
@@ -28,6 +27,4 @@ class DetailViewController: UIViewController {
         NSNotificationCenter.defaultCenter().postNotificationName("REMINDER_ADDED", object: self, userInfo: ["region" : geoRegion])
         dismissViewControllerAnimated(true, completion: nil)
     }
-    
-    
 }
