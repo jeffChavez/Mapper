@@ -31,7 +31,7 @@ class ReminderTableViewController: UIViewController, UITableViewDataSource, NSFe
             println("error in fetching")
         }
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didGetCloudChanges", name: NSPersistentStoreDidImportUbiquitousContentChangesNotification, object: appDelegate.persistentStoreCoordinator)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didGetCloudChanges:", name: NSPersistentStoreDidImportUbiquitousContentChangesNotification, object: appDelegate.persistentStoreCoordinator)
         
         self.fetchedResultsController.delegate = self
         self.tableView.dataSource = self
@@ -48,7 +48,7 @@ class ReminderTableViewController: UIViewController, UITableViewDataSource, NSFe
         return self.fetchedResultsController.fetchedObjects?.count ?? 0
     }
     
-    func didGetCloudChanges( notification : NSNotification) {
+    func didGetCloudChanges (notification : NSNotification) {
         self.managedObjectContext.mergeChangesFromContextDidSaveNotification(notification)
     }
     

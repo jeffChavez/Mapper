@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6B9FEF551A0AD2DB0029808C /* ReminderTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9FEF541A0AD2DB0029808C /* ReminderTableViewController.swift */; };
+		6B9FEF581A0ADE100029808C /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B9FEF571A0ADE100029808C /* CloudKit.framework */; };
 		6BA19C4B1A081F45004F2B6C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA19C4A1A081F45004F2B6C /* AppDelegate.swift */; };
 		6BA19C4D1A081F45004F2B6C /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA19C4C1A081F45004F2B6C /* MapViewController.swift */; };
 		6BA19C4F1A081F45004F2B6C /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA19C4E1A081F45004F2B6C /* DetailViewController.swift */; };
@@ -32,6 +33,8 @@
 
 /* Begin PBXFileReference section */
 		6B9FEF541A0AD2DB0029808C /* ReminderTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReminderTableViewController.swift; sourceTree = "<group>"; };
+		6B9FEF561A0ADE020029808C /* Mapper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Mapper.entitlements; sourceTree = "<group>"; };
+		6B9FEF571A0ADE100029808C /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		6BA19C451A081F45004F2B6C /* Mapper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mapper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BA19C491A081F45004F2B6C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6BA19C4A1A081F45004F2B6C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -54,6 +57,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6BA19C6D1A081F8A004F2B6C /* MapKit.framework in Frameworks */,
+				6B9FEF581A0ADE100029808C /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,6 +74,7 @@
 		6BA19C3C1A081F45004F2B6C = {
 			isa = PBXGroup;
 			children = (
+				6B9FEF571A0ADE100029808C /* CloudKit.framework */,
 				6BA19C6C1A081F8A004F2B6C /* MapKit.framework */,
 				6BA19C471A081F45004F2B6C /* Mapper */,
 				6BA19C5F1A081F45004F2B6C /* MapperTests */,
@@ -89,6 +94,7 @@
 		6BA19C471A081F45004F2B6C /* Mapper */ = {
 			isa = PBXGroup;
 			children = (
+				6B9FEF561A0ADE020029808C /* Mapper.entitlements */,
 				6BA19C4A1A081F45004F2B6C /* AppDelegate.swift */,
 				6BA19C4C1A081F45004F2B6C /* MapViewController.swift */,
 				6BA19C4E1A081F45004F2B6C /* DetailViewController.swift */,
@@ -177,8 +183,12 @@
 				TargetAttributes = {
 					6BA19C441A081F45004F2B6C = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = T337VCC9XQ;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
 								enabled = 1;
 							};
 						};
@@ -363,9 +373,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Mapper/Mapper.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Mapper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -373,9 +387,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Mapper/Mapper.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Mapper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
