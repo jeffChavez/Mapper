@@ -65,7 +65,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             annotation.coordinate = locationOfPress
             annotation.title = "Add reminder"
             self.mapView.addAnnotation(annotation)
-            println("pressed")
+            println("\(annotation.coordinate.latitude), \(annotation.coordinate.longitude) ")
         }
     }
     
@@ -86,11 +86,16 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func locationManager(manager: CLLocationManager!, didEnterRegion region: CLRegion!) {
-        println("inside region!")
+        var notification = UILocalNotification()
+        notification.fireDate = NSDate()
+        notification.alertBody = "This is a reminder, you have entered \(region)"
+        notification.alertAction = "Notification"
+        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        println("You have entered \(region)")
     }
     
     func locationManager(manager: CLLocationManager!, didExitRegion region: CLRegion!) {
-        println("outside region")
+        println("You have exited \(region)")
     }
     
     deinit {
