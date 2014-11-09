@@ -32,6 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6B7D92711A0FC5070023E42D /* HashTables.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = HashTables.playground; sourceTree = "<group>"; };
 		6B9FEF541A0AD2DB0029808C /* ReminderTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReminderTableViewController.swift; sourceTree = "<group>"; };
 		6B9FEF561A0ADE020029808C /* Mapper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Mapper.entitlements; sourceTree = "<group>"; };
 		6B9FEF571A0ADE100029808C /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
@@ -95,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				6B9FEF561A0ADE020029808C /* Mapper.entitlements */,
+				6B7D92711A0FC5070023E42D /* HashTables.playground */,
 				6BA19C4A1A081F45004F2B6C /* AppDelegate.swift */,
 				6BA19C4C1A081F45004F2B6C /* MapViewController.swift */,
 				6BA19C4E1A081F45004F2B6C /* DetailViewController.swift */,
